@@ -1,2 +1,2 @@
 # NewsApp
-A iOS app to show the top headlines for BBC News.
+A iOS app to show the top headlines for BBC News and more...
