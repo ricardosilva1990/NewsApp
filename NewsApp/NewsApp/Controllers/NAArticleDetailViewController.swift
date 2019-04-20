@@ -1,10 +1,3 @@
-//
-//  NAArticleDetailViewController.swift
-//  NewsApp
-//
-//  Created by Ricardo Silva on 20/04/2019.
-//  Copyright © 2019 Ricardo Silva. All rights reserved.
-//
 
 import UIKit
 
@@ -15,8 +8,16 @@ class NAArticleDetailViewController: UIViewController {
     
     var articleViewModel: NAArticleViewModel! = nil
     
+    var addFavouriteButtonItem: UIBarButtonItem!
+    var removeFavouriteButtonItem: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addFavouriteButtonItem = UIBarButtonItem(image: UIImage(named: Icons.addToFavourite), style: .plain, target: self, action: #selector(addToFavourite))
+        removeFavouriteButtonItem = UIBarButtonItem(image: UIImage(named: Icons.removeFromFavourite), style: .plain, target: self, action: #selector(removeFromFavourite))
+        
+        self.navigationItem.rightBarButtonItem = articleViewModel.isFavourite ? removeFavouriteButtonItem : addFavouriteButtonItem
         
         if let title = self.articleViewModel.title {
             self.navigationItem.title = title
@@ -39,5 +40,19 @@ class NAArticleDetailViewController: UIViewController {
         } else {
             self.articleContent.isHidden = true
         }
+    }
+}
+
+// MARK: - User Interface Interaction
+
+extension NAArticleDetailViewController {
+    @objc func addToFavourite() {
+        self.articleViewModel.addToFavourites()
+        self.navigationItem.rightBarButtonItem = self.removeFavouriteButtonItem
+    }
+    
+    @objc func removeFromFavourite() {
+        self.articleViewModel.removeFomFavourites()
+        self.navigationItem.rightBarButtonItem = self.addFavouriteButtonItem
     }
 }

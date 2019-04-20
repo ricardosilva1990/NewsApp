@@ -10,8 +10,8 @@ class NAArticleListViewModel: NSObject {
         self.newsAPI.getTopHeadlines(sources: bbcNewsTargetInfo.sourceKey) { [weak self] result in
             switch result {
             case .success(let articleList):
-                if let article = articleList.first {
-                    self?.title = article.source.name
+                if let article = articleList.first, let source = article.source {
+                    self?.title = source.name
                 }
                 self?.articleViewModels = articleList.compactMap(NAArticleViewModel.init)
             case .failure(_):

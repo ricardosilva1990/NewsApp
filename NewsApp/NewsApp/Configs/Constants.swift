@@ -10,6 +10,11 @@ struct bbcNewsTargetInfo {
     static let defaultImage = "bbc-news-icon"
 }
 
+struct Icons {
+    static let addToFavourite = "icon-add-favourite"
+    static let removeFromFavourite = "icon-remove-favourite"
+}
+
 struct CellConstants {
     static let article = "articleTableViewCell"
 }

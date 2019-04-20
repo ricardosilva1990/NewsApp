@@ -1,20 +1,40 @@
 
 import Foundation
+import Realm
+import RealmSwift
 
-public struct NAArticle: Codable {
-    let source: NASource
-    let author: String?
-    let title: String?
-    let articleDescription: String?
-    let url: URL
-    let urlToImage: URL?
-    let publishedAt: Date
-    let content: String?
+public class NASource: Object, Codable {
+    @objc dynamic var id: String?
+    @objc dynamic var name: String?
     
-    public struct NASource: Codable {
-        let id: String?
-        let name: String?
+    convenience init(id: String?, name: String?) {
+        self.init()
+        self.id = id
+        self.name = name
     }
+    
+    public required init() {
+        super.init()
+    }
+    
+    public required init(value: Any, schema: RLMSchema) {
+        super.init(value: value, schema: schema)
+    }
+    
+    public required init(realm: RLMRealm, schema: RLMObjectSchema) {
+        super.init(realm: realm, schema: schema)
+    }
+}
+
+public class NAArticle: Object, Codable {
+    @objc dynamic var source: NASource?
+    @objc dynamic var author: String?
+    @objc dynamic var title: String?
+    @objc dynamic var articleDescription: String?
+    @objc dynamic var url: String?
+    @objc dynamic var urlToImage: String?
+    @objc dynamic var publishedAt: Date?
+    @objc dynamic var content: String?
     
     enum CodingKeys: String, CodingKey {
         case source
@@ -27,14 +47,15 @@ public struct NAArticle: Codable {
         case content
     }
     
-    public init(source: NASource,
-                author: String?,
-                title: String?,
-                articleDescription: String?,
-                url: URL,
-                urlToImage: URL?,
-                publishedAt: Date,
-                content: String?) {
+    convenience init(source: NASource,
+                     author: String?,
+                     title: String?,
+                     articleDescription: String?,
+                     url: String,
+                     urlToImage: String?,
+                     publishedAt: Date,
+                     content: String?) {
+        self.init()
         self.source = source
         self.author = author
         self.title = title
@@ -43,5 +64,17 @@ public struct NAArticle: Codable {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
         self.content = content
+    }
+    
+    public required init() {
+        super.init()
+    }
+    
+    public required init(value: Any, schema: RLMSchema) {
+        super.init(value: value, schema: schema)
+    }
+    
+    public required init(realm: RLMRealm, schema: RLMObjectSchema) {
+        super.init(realm: realm, schema: schema)
     }
 }
