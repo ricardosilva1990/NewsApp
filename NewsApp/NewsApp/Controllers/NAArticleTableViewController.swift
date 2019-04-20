@@ -62,14 +62,38 @@ extension NAArticleTableViewController {
                 if let data = data {
                     DispatchQueue.main.async {
                         cell.articleImage.image = UIImage(data: data)
-                        cell.activityIndicatorView.stopAnimating()
                     }
+                }
+                DispatchQueue.main.async {
+                    cell.activityIndicatorView.stopAnimating()
                 }
             }
         }
 
         return cell
     }
+}
+
+// MARK: - Table view delegate
+
+extension NAArticleTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let articleViewModel = self.articleListViewModel.articleViewModels[indexPath.row]
+        self.performSegue(withIdentifier: SegueIdentifiers.detailView, sender: articleViewModel)
+    }
+}
+
+// MARK: - Navigation
+
+extension NAArticleTableViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == SegueIdentifiers.detailView {
+            let articleDetailVC = segue.destination as? NAArticleDetailViewController
+            let articleViewModel = sender as! NAArticleViewModel
+            articleDetailVC?.articleViewModel = articleViewModel
+        }
+    }
+}
 
     /*
     // Override to support conditional editing of the table view.
@@ -115,5 +139,3 @@ extension NAArticleTableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
-}

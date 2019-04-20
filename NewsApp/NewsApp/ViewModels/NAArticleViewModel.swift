@@ -6,16 +6,24 @@ typealias NAImageDownloadHandler = ((Data?, NAError?) -> ())
 class NAArticleViewModel: NSObject {
     var title: String?
     var imageData: Data?
+    var descriptionText: String?
+    var content: String?
+    
+    
     private var urlToImage: URL?
     
-    init(title: String?, imageData: Data?, urlToImage: URL?) {
+    init(title: String?, urlToImage: URL?, descriptionText: String?, content: String?) {
         self.title = title
         self.urlToImage = urlToImage
+        self.descriptionText = descriptionText
+        self.content = content
     }
     
     init(article: NAArticle) {
         self.title = article.title
         self.urlToImage = article.urlToImage
+        self.descriptionText = article.articleDescription
+        self.content = article.content
     }
     
     func downloadImage(completion: @escaping NAImageDownloadHandler) {

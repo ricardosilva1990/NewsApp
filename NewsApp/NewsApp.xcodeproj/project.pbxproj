@@ -13,6 +13,7 @@
 		2160B8BA226A1837006D0C15 /* NAArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2160B8B9226A1837006D0C15 /* NAArticleViewModel.swift */; };
 		2160B8BD226A18C5006D0C15 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2160B8BC226A18C5006D0C15 /* Constants.swift */; };
 		2187BEA8226B3B410099E836 /* NAArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2187BEA7226B3B410099E836 /* NAArticleTableViewCell.swift */; };
+		2187BEAA226B3FED0099E836 /* NAArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2187BEA9226B3FED0099E836 /* NAArticleDetailViewController.swift */; };
 		21AB0C652269C5B900CB4E4A /* NAResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C642269C5B900CB4E4A /* NAResponse.swift */; };
 		21AB0C682269C8EE00CB4E4A /* NAArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C672269C8EE00CB4E4A /* NAArticle.swift */; };
 		21AB0C6C2269C97C00CB4E4A /* NATarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C6B2269C97C00CB4E4A /* NATarget.swift */; };
@@ -48,6 +49,7 @@
 		2160B8B9226A1837006D0C15 /* NAArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleViewModel.swift; sourceTree = "<group>"; };
 		2160B8BC226A18C5006D0C15 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2187BEA7226B3B410099E836 /* NAArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleTableViewCell.swift; sourceTree = "<group>"; };
+		2187BEA9226B3FED0099E836 /* NAArticleDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleDetailViewController.swift; sourceTree = "<group>"; };
 		21AB0C642269C5B900CB4E4A /* NAResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAResponse.swift; sourceTree = "<group>"; };
 		21AB0C672269C8EE00CB4E4A /* NAArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticle.swift; sourceTree = "<group>"; };
 		21AB0C6B2269C97C00CB4E4A /* NATarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NATarget.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				21D43EC4226920B400CB4CFD /* AppDelegate.swift */,
 				2187BEA7226B3B410099E836 /* NAArticleTableViewCell.swift */,
 				2160B8B52269EF89006D0C15 /* NAArticleTableViewController.swift */,
+				2187BEA9226B3FED0099E836 /* NAArticleDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				21AB0C6C2269C97C00CB4E4A /* NATarget.swift in Sources */,
 				21AB0C762269D1A000CB4E4A /* NAProvider.swift in Sources */,
 				2160B8B62269EF89006D0C15 /* NAArticleTableViewController.swift in Sources */,
+				2187BEAA226B3FED0099E836 /* NAArticleDetailViewController.swift in Sources */,
 				2160B8BD226A18C5006D0C15 /* Constants.swift in Sources */,
 				2187BEA8226B3B410099E836 /* NAArticleTableViewCell.swift in Sources */,
 				21AB0C742269CF6C00CB4E4A /* NewsAPI.swift in Sources */,

@@ -9,6 +9,7 @@ public struct NAArticle: Codable {
     let url: URL
     let urlToImage: URL?
     let publishedAt: Date
+    let content: String?
     
     public struct NASource: Codable {
         let id: String?
@@ -23,6 +24,7 @@ public struct NAArticle: Codable {
         case url
         case urlToImage
         case publishedAt
+        case content
     }
     
     public init(source: NASource,
@@ -31,7 +33,8 @@ public struct NAArticle: Codable {
                 articleDescription: String?,
                 url: URL,
                 urlToImage: URL?,
-                publishedAt: Date) {
+                publishedAt: Date,
+                content: String?) {
         self.source = source
         self.author = author
         self.title = title
@@ -39,5 +42,6 @@ public struct NAArticle: Codable {
         self.url = url
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
+        self.content = content
     }
 }
