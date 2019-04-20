@@ -15,7 +15,7 @@ class NAArticleListViewModel: NSObject {
                 }
                 self?.articleViewModels = articleList.compactMap(NAArticleViewModel.init)
             case .failure(_):
-                fatalError()
+                fatalError()    // TODO: display alert with error
             }
             
             completed()

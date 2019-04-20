@@ -13,3 +13,7 @@ struct bbcNewsTargetInfo {
 struct CellConstants {
     static let article = "articleTableViewCell"
 }
+
+struct SegueIdentifiers {
+    static let detailView = "detailView"
+}
