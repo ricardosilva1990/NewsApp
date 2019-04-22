@@ -48,7 +48,7 @@ public class NAArticle: Object, Codable {
         case content
     }
     
-    convenience init(source: NASource,
+    convenience init(source: NASource?,
                      author: String?,
                      title: String?,
                      articleDescription: String?,
