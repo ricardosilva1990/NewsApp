@@ -16,7 +16,7 @@ class NAArticleListViewModel {
     private let newsAPI = NewsAPI(apiKey: NewsAPIKey.apiKey);
     
     init() {
-        self.newsAPI.getTopHeadlines(sources: bbcNewsTargetInfo.sourceKey) { [weak self] result in
+        self.newsAPI.getTopHeadlines(sources: NewsTargetInfo.sourceKey) { [weak self] result in
             switch result {
             case .success(let articleList):
                 self?.articleViewModels.accept(articleList.compactMap(NAArticleViewModel.init))
