@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		210B40A8226E0BC100835CBC /* NALoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B40A7226E0BC100835CBC /* NALoginViewController.swift */; };
+		210B40A9226E0BC100835CBC /* NALoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B40A7226E0BC100835CBC /* NALoginViewController.swift */; };
+		210B40AB226E0DA300835CBC /* NABiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B40AA226E0DA300835CBC /* NABiometricIDAuth.swift */; };
+		210B40AC226E0DA300835CBC /* NABiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B40AA226E0DA300835CBC /* NABiometricIDAuth.swift */; };
 		210BA455226E075B009A4093 /* CBSNewsLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 210BA454226E075B009A4093 /* CBSNewsLaunchScreen.storyboard */; };
 		2160B8B42269EA2C006D0C15 /* NADecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2160B8B32269EA2C006D0C15 /* NADecoder.swift */; };
 		2160B8B62269EF89006D0C15 /* NAArticleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2160B8B52269EF89006D0C15 /* NAArticleTableViewController.swift */; };
@@ -69,6 +73,8 @@
 
 /* Begin PBXFileReference section */
 		11CD2937812611C04A212340 /* Pods-NewsAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsAppTests.release.xcconfig"; path = "Target Support Files/Pods-NewsAppTests/Pods-NewsAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		210B40A7226E0BC100835CBC /* NALoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NALoginViewController.swift; sourceTree = "<group>"; };
+		210B40AA226E0DA300835CBC /* NABiometricIDAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NABiometricIDAuth.swift; sourceTree = "<group>"; };
 		210BA454226E075B009A4093 /* CBSNewsLaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CBSNewsLaunchScreen.storyboard; sourceTree = "<group>"; };
 		2160B8B32269EA2C006D0C15 /* NADecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NADecoder.swift; sourceTree = "<group>"; };
 		2160B8B52269EF89006D0C15 /* NAArticleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleTableViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +147,7 @@
 				2160B8BC226A18C5006D0C15 /* Constants.swift */,
 				21DC5417226E0348002C24A1 /* BBCNewsTargetInfo.swift */,
 				21DC5419226E0356002C24A1 /* CBSNewsTargetInfo.swift */,
+				210B40AA226E0DA300835CBC /* NABiometricIDAuth.swift */,
 			);
 			path = Configs;
 			sourceTree = "<group>";
@@ -213,6 +220,7 @@
 				2187BEA7226B3B410099E836 /* NAArticleTableViewCell.swift */,
 				2160B8B52269EF89006D0C15 /* NAArticleTableViewController.swift */,
 				2187BEA9226B3FED0099E836 /* NAArticleDetailViewController.swift */,
+				210B40A7226E0BC100835CBC /* NALoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -543,6 +551,7 @@
 				21AB0C6E2269C9EC00CB4E4A /* NATargetType.swift in Sources */,
 				21AB0C722269CF2800CB4E4A /* Result.swift in Sources */,
 				21AB0C682269C8EE00CB4E4A /* NAArticle.swift in Sources */,
+				210B40AB226E0DA300835CBC /* NABiometricIDAuth.swift in Sources */,
 				2160B8B82269F001006D0C15 /* NAArticleListViewModel.swift in Sources */,
 				2160B8BA226A1837006D0C15 /* NAArticleViewModel.swift in Sources */,
 				21AB0C6C2269C97C00CB4E4A /* NATarget.swift in Sources */,
@@ -554,6 +563,7 @@
 				21AB0C742269CF6C00CB4E4A /* NewsAPI.swift in Sources */,
 				2160B8B42269EA2C006D0C15 /* NADecoder.swift in Sources */,
 				21DC5418226E0348002C24A1 /* BBCNewsTargetInfo.swift in Sources */,
+				210B40A8226E0BC100835CBC /* NALoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +585,7 @@
 				21DC53FC226E02D5002C24A1 /* NATargetType.swift in Sources */,
 				21DC53FD226E02D5002C24A1 /* Result.swift in Sources */,
 				21DC53FE226E02D5002C24A1 /* NAArticle.swift in Sources */,
+				210B40AC226E0DA300835CBC /* NABiometricIDAuth.swift in Sources */,
 				21DC53FF226E02D5002C24A1 /* NAArticleListViewModel.swift in Sources */,
 				21DC5400226E02D5002C24A1 /* NAArticleViewModel.swift in Sources */,
 				21DC5401226E02D5002C24A1 /* NATarget.swift in Sources */,
@@ -586,6 +597,7 @@
 				21DC5406226E02D5002C24A1 /* NAArticleTableViewCell.swift in Sources */,
 				21DC5407226E02D5002C24A1 /* NewsAPI.swift in Sources */,
 				21DC5408226E02D5002C24A1 /* NADecoder.swift in Sources */,
+				210B40A9226E0BC100835CBC /* NALoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
