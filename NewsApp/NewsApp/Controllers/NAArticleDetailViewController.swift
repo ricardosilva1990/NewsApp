@@ -1,45 +1,36 @@
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class NAArticleDetailViewController: UIViewController {
     @IBOutlet weak var articleImage: UIImageView!
     @IBOutlet weak var articleDescription: UILabel!
     @IBOutlet weak var articleContent: UILabel!
     
-    var articleViewModel: NAArticleViewModel! = nil
+    var articleViewModel: NAArticleViewModel!
     
-    var addFavouriteButtonItem: UIBarButtonItem!
-    var removeFavouriteButtonItem: UIBarButtonItem!
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addFavouriteButtonItem = UIBarButtonItem(image: UIImage(named: Icons.addToFavourite), style: .plain, target: self, action: #selector(addToFavourite))
-        removeFavouriteButtonItem = UIBarButtonItem(image: UIImage(named: Icons.removeFromFavourite), style: .plain, target: self, action: #selector(removeFromFavourite))
+        setupDetailConfiguration()
+    }
+    
+    func setupDetailConfiguration() {
+        self.articleViewModel.title.asObservable().bind(to: self.navigationItem.rx.title).disposed(by: disposeBag)
+        self.articleViewModel.imageData.asObservable().bind(to: self.articleImage.rx.image).disposed(by: disposeBag)
+        self.articleViewModel.descriptionText.asObservable().bind(to: self.articleDescription.rx.text).disposed(by: disposeBag)
+        self.articleViewModel.content.asObservable().bind(to: self.articleContent.rx.text).disposed(by: disposeBag)
         
-        self.navigationItem.rightBarButtonItem = articleViewModel.isFavourite ? removeFavouriteButtonItem : addFavouriteButtonItem
-        
-        if let title = self.articleViewModel.title {
-            self.navigationItem.title = title
-        }
-        
-        if let data = self.articleViewModel.imageData {
-            self.articleImage.image = UIImage(data: data)
-        } else {
-            self.articleImage.isHidden = true
-        }
-        
-        if let desc = self.articleViewModel.descriptionText {
-            self.articleDescription.text = desc
-        } else {
-            self.articleDescription.isHidden = true
-        }
-        
-        if let cont = self.articleViewModel.content {
-            self.articleContent.text = cont
-        } else {
-            self.articleContent.isHidden = true
-        }
+        self.articleViewModel.isFavourite.asObservable().subscribe(onNext: { favourite in
+            if (favourite) {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Icons.removeFromFavourite), style: .plain, target: self, action: #selector(self.removeFromFavourite))
+            } else {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Icons.addToFavourite), style: .plain, target: self, action: #selector(self.addToFavourite))
+            }
+        }).disposed(by: disposeBag)
     }
 }
 
@@ -48,11 +39,30 @@ class NAArticleDetailViewController: UIViewController {
 extension NAArticleDetailViewController {
     @objc func addToFavourite() {
         self.articleViewModel.addToFavourites()
-        self.navigationItem.rightBarButtonItem = self.removeFavouriteButtonItem
+        
+        if let parentViewController = self.parent?.children.first as? NAArticleTableViewController {
+            let currentFavourites = parentViewController.articleListViewModel.favouriteArticleViewModels.value + [self.articleViewModel]
+            parentViewController.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites as! [NAArticleViewModel])
+            
+            let article = parentViewController.articleListViewModel.articleViewModels.value.filter { $0.title.value == self.articleViewModel.title.value }.first
+            if let article = article {
+                article.isFavourite.accept(true)
+            }
+            
+        }
     }
     
     @objc func removeFromFavourite() {
         self.articleViewModel.removeFomFavourites()
-        self.navigationItem.rightBarButtonItem = self.addFavouriteButtonItem
+        
+        if let parentViewController = self.parent?.children.first as? NAArticleTableViewController {
+            let currentFavourites = parentViewController.articleListViewModel.favouriteArticleViewModels.value.filter { $0 != self.articleViewModel }
+            parentViewController.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
+            
+            let article = parentViewController.articleListViewModel.articleViewModels.value.filter { $0.title.value == self.articleViewModel.title.value }.first
+            if let article = article {
+                article.isFavourite.accept(false)
+            }
+        }
     }
 }

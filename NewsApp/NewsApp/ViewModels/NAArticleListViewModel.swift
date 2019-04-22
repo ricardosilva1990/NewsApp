@@ -1,24 +1,28 @@
 
 import Foundation
+import RxSwift
+import RxCocoa
+import Realm
+import RealmSwift
 
-class NAArticleListViewModel: NSObject {
-    private(set) var articleViewModels = [NAArticleViewModel]()
-    var title: String? = "Loading..."
+class NAArticleListViewModel {
+    var articleViewModels: BehaviorRelay<[NAArticleViewModel]> = BehaviorRelay(value: [NAArticleViewModel]())
+    
+    lazy var favouriteArticleViewModels: BehaviorRelay<[NAArticleViewModel]> = {
+        let realm = try? Realm()
+        return BehaviorRelay(value: (realm?.objects(NAArticle.self).compactMap(NAArticleViewModel.init))!)
+    }()
+    
     private let newsAPI = NewsAPI(apiKey: NewsAPIKey.apiKey);
     
-    func getArticles(completed: @escaping (() -> ())) {
+    init() {
         self.newsAPI.getTopHeadlines(sources: bbcNewsTargetInfo.sourceKey) { [weak self] result in
             switch result {
             case .success(let articleList):
-                if let article = articleList.first, let source = article.source {
-                    self?.title = source.name
-                }
-                self?.articleViewModels = articleList.compactMap(NAArticleViewModel.init)
+                self?.articleViewModels.accept(articleList.compactMap(NAArticleViewModel.init))
             case .failure(_):
-                fatalError()    // TODO: display alert with error
+                break
             }
-            
-            completed()
         }
     }
 }

@@ -33,6 +33,7 @@ public class NAArticle: Object, Codable {
     @objc dynamic var articleDescription: String?
     @objc dynamic var url: String?
     @objc dynamic var urlToImage: String?
+    @objc dynamic var imageData: Data?
     @objc dynamic var publishedAt: Date?
     @objc dynamic var content: String?
     
@@ -54,7 +55,8 @@ public class NAArticle: Object, Codable {
                      url: String,
                      urlToImage: String?,
                      publishedAt: Date,
-                     content: String?) {
+                     content: String?,
+                     imageData: Data?) {
         self.init()
         self.source = source
         self.author = author
@@ -64,6 +66,15 @@ public class NAArticle: Object, Codable {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
         self.content = content
+        self.imageData = imageData
+    }
+    
+    convenience init(title: String?, articleDescription: String?, content: String?, imageData: Data?) {
+        self.init()
+        self.title = title
+        self.articleDescription = articleDescription
+        self.content = content
+        self.imageData = imageData
     }
     
     public required init() {
