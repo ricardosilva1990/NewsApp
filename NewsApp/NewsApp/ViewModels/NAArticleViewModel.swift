@@ -2,95 +2,61 @@
 import Foundation
 import Realm
 import RealmSwift
-
-typealias NAImageDownloadHandler = ((Data?, NAError?) -> ())
+import RxSwift
+import RxCocoa
 
 class NAArticleViewModel: NSObject {
-    var title: String?
-    var imageData: Data?
-    var descriptionText: String?
-    var content: String?
-    var isFavourite: Bool = false
-
-    private let article: NAArticle
-    
-    private var urlToImage: String?
-    
-//    let realm = try? Realm()
-    
-//    init(title: String?, urlToImage: String?, descriptionText: String?, content: String?, isFavourite: Bool) {
-//        self.title = title
-//        self.urlToImage = urlToImage
-//        self.descriptionText = descriptionText
-//        self.content = content
-//        self.isFavourite = isFavourite
-//    }
+    var title: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    var imageData: BehaviorRelay<UIImage?> = BehaviorRelay(value: UIImage(named: bbcNewsTargetInfo.defaultImage))
+    var descriptionText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    var content: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    var source: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    var isFavourite: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
     init(article: NAArticle) {
-        self.article = article
+        super.init()
         
-        self.title = article.title
-        self.urlToImage = article.urlToImage
-        self.descriptionText = article.articleDescription
-        self.content = article.content
+        self.title = BehaviorRelay(value: article.title)
+        self.descriptionText = BehaviorRelay(value: article.articleDescription)
+        self.content = BehaviorRelay(value: article.content)
+        self.source = BehaviorRelay(value: article.source?.name)
         
-        if let title = article.title {
-            do {
-                let realm = try Realm()
-                let predicate = NSPredicate(format: "title = %@", title)
-                self.isFavourite = realm.objects(NAArticle.self).filter(predicate).count != 0
-            } catch {
-                self.isFavourite = false
-            }
-        } else {
-            self.isFavourite = false
+        if let imageData = article.imageData {
+            self.imageData.accept(UIImage(data: imageData))
         }
-    }
-}
-
-// MARK: - Image URL to Data
-
-extension NAArticleViewModel {
-    func downloadImage(completion: @escaping NAImageDownloadHandler) {
-        if let imageURLString = self.urlToImage, let imageURL = URL(string: imageURLString) {
-            let dataTask = URLSession.shared.dataTask(with: imageURL) { data, response, error in
-                if let data = data {
-                    self.imageData = data
-                    completion(data, nil)
+        
+        if let articleImage = self.imageData.value, articleImage == UIImage(named: bbcNewsTargetInfo.defaultImage) {
+            if let imageURLString = article.urlToImage, let imageURL = URL(string: imageURLString) {
+                let dataTask = URLSession.shared.dataTask(with: imageURL) { [weak self] data, response, error in
+                    if let data = data {
+                        self?.imageData.accept(UIImage(data: data))
+                    }
                 }
-                completion(nil, .requestFailed)
+                dataTask.resume()
             }
-            dataTask.resume()
-        } else {
-            completion(nil, .unknown)
         }
+        
+        let realm = try? Realm()
+        self.isFavourite.accept(realm?.objects(NAArticle.self).filter("title = %@", article.title!).count != 0)
     }
 }
 
-// MARK: - Realm Interaction
-
+//MARK: - Realm Add/Remove
 extension NAArticleViewModel {
     func addToFavourites() {
-        do {
-            let realm = try Realm()
-            try? realm.write {
-                realm.add(self.article)
-            }
-            self.isFavourite = true
-        } catch let error {
-            fatalError(error.localizedDescription)
+        let realm = try? Realm()
+        try? realm?.write {
+            realm?.add(NAArticle(title: self.title.value, articleDescription: self.descriptionText.value, content: self.content.value, imageData: self.imageData.value?.pngData()))
+            self.isFavourite.accept(true)
         }
     }
-    
+
     func removeFomFavourites() {
-        do {
-            let realm = try Realm()
-            try? realm.write {
-                realm.delete(self.article)
-            }
-            self.isFavourite = false
-        } catch let error {
-            fatalError(error.localizedDescription)
+        let realm = try? Realm()
+        let article = realm?.objects(NAArticle.self).filter("title = %@", self.title.value!).first
+        try? realm?.write {
+            realm?.delete(article!)
+            self.isFavourite.accept(false)
         }
     }
 }

@@ -1,85 +1,89 @@
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-class NAArticleTableViewController: UITableViewController {
-    var activityIndicatorView: UIActivityIndicatorView! = UIActivityIndicatorView(style: .gray)
+enum NAArticleType {
+    case all
+    case favourite
+}
+
+class NAArticleTableViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var favouritesButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
-    private var articleListViewModel: NAArticleListViewModel! = NAArticleListViewModel()
-
-    override func loadView() {
-        super.loadView()
-        
-        self.tableView.backgroundView = self.activityIndicatorView
-    }
+    lazy var articleListViewModel: NAArticleListViewModel! = NAArticleListViewModel()
+    var articleType = NAArticleType.all
+    
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationItem.title = self.articleListViewModel.title
         
-        self.tableView.isUserInteractionEnabled = false
-        self.activityIndicatorView.startAnimating()
-        
-        articleListViewModel.getArticles { [weak self] in
-            DispatchQueue.main.async {
-                self?.activityIndicatorView.stopAnimating()
-                self?.tableView.isUserInteractionEnabled = true
-                
-                self?.navigationItem.title = self?.articleListViewModel.title
-                self?.tableView.reloadData()
-            }
-        }
-    }
-}
-
-// MARK: - Table view data source
-
-extension NAArticleTableViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.articleListViewModel.articleViewModels.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellConstants.article, for: indexPath) as? NAArticleTableViewCell else {
-            fatalError("Not supposed to happen...")
+        self.navigationItem.rightBarButtonItems = articleType == .all ? [favouritesButton] : [doneButton]
+        if articleType == .favourite {
+            self.navigationItem.title = "Favourite Headlines"
         }
         
-        let article = self.articleListViewModel.articleViewModels[indexPath.row]
-        
-        cell.articleTitle.text = article.title
-        
-        if let imageData = article.imageData {
-            cell.articleImage.image = UIImage(data: imageData)
-        } else {
-            cell.activityIndicatorView.startAnimating()
-            
-            cell.articleImage.image = UIImage(named: bbcNewsTargetInfo.defaultImage)
-            article.downloadImage { data, error in
-                if let data = data {
+        setupHeadlineConfiguration()
+        setupCellConfiguration()
+        setupCellTapHandling()
+    }
+    
+    func setupHeadlineConfiguration() {
+        self.articleListViewModel.articleViewModels.asObservable().subscribe(onNext: { articles in
+            if self.articleType == .all {
+                if articles.count != 0 {
                     DispatchQueue.main.async {
-                        cell.articleImage.image = UIImage(data: data)
+                        self.navigationItem.title = articles.first?.source.value
+                        self.activityIndicatorView.stopAnimating()
+                        self.tableView.isUserInteractionEnabled = true
                     }
-                }
-                DispatchQueue.main.async {
-                    cell.activityIndicatorView.stopAnimating()
+                } else {
+                    self.activityIndicatorView.startAnimating()
+                    self.tableView.isUserInteractionEnabled = false
                 }
             }
+        }).disposed(by: disposeBag)
+    }
+    
+    func setupCellConfiguration() {
+        if articleType == .all {
+            self.articleListViewModel.articleViewModels.asObservable()
+                .bind(to: self.tableView.rx.items(cellIdentifier: CellConstants.article, cellType: NAArticleTableViewCell.self)) { index, article, cell in
+                    cell.configureWithArticle(article: article)
+                }
+                .disposed(by: disposeBag)
+        } else {
+            self.articleListViewModel.favouriteArticleViewModels.asObservable()
+                .bind(to: self.tableView.rx.items(cellIdentifier: CellConstants.article, cellType: NAArticleTableViewCell.self)) { index, article, cell in
+                    cell.configureWithArticle(article: article)
+                }
+                .disposed(by: disposeBag)
         }
-
-        return cell
+    }
+    
+    func setupCellTapHandling() {
+        self.tableView.rx.modelSelected(NAArticleViewModel.self).subscribe(onNext: { article in
+            self.performSegue(withIdentifier: SegueIdentifiers.detailView, sender: article)
+            if let selectedRowIndexPath = self.tableView.indexPathForSelectedRow {
+                self.tableView.deselectRow(at: selectedRowIndexPath, animated: true)
+            }
+        }).disposed(by: disposeBag)
     }
 }
 
-// MARK: - Table view delegate
+// MARK: - Bar Button Item Methods
 
 extension NAArticleTableViewController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let articleViewModel = self.articleListViewModel.articleViewModels[indexPath.row]
-        self.performSegue(withIdentifier: SegueIdentifiers.detailView, sender: articleViewModel)
+    @IBAction func clickFavouritesButton(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: SegueIdentifiers.favouritesView, sender: nil)
+    }
+    
+    @IBAction func clickDoneButton(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true)
     }
 }
 
@@ -91,51 +95,11 @@ extension NAArticleTableViewController {
             let articleDetailVC = segue.destination as? NAArticleDetailViewController
             let articleViewModel = sender as! NAArticleViewModel
             articleDetailVC?.articleViewModel = articleViewModel
+        } else if segue.identifier == SegueIdentifiers.favouritesView {
+            if let favouriteListTVC = (segue.destination as? UINavigationController)?.children.first as? NAArticleTableViewController {
+                favouriteListTVC.articleType = .favourite
+                favouriteListTVC.articleListViewModel = self.articleListViewModel
+            }
         }
     }
 }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */

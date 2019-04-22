@@ -13,6 +13,7 @@ struct bbcNewsTargetInfo {
 struct Icons {
     static let addToFavourite = "icon-add-favourite"
     static let removeFromFavourite = "icon-remove-favourite"
+    static let favouriteFolder = "icon-favourite-folder"
 }
 
 struct CellConstants {
@@ -21,4 +22,5 @@ struct CellConstants {
 
 struct SegueIdentifiers {
     static let detailView = "detailView"
+    static let favouritesView = "favouritesView"
 }
