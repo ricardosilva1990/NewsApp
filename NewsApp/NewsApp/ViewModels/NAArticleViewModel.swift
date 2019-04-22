@@ -7,7 +7,7 @@ import RxCocoa
 
 class NAArticleViewModel: NSObject {
     var title: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    var imageData: BehaviorRelay<UIImage?> = BehaviorRelay(value: UIImage(named: bbcNewsTargetInfo.defaultImage))
+    var imageData: BehaviorRelay<UIImage?> = BehaviorRelay(value: UIImage(named: NewsTargetInfo.defaultImage))
     var descriptionText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var content: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var source: BehaviorRelay<String?> = BehaviorRelay(value: nil)
@@ -25,7 +25,7 @@ class NAArticleViewModel: NSObject {
             self.imageData.accept(UIImage(data: imageData))
         }
         
-        if let articleImage = self.imageData.value, articleImage == UIImage(named: bbcNewsTargetInfo.defaultImage) {
+        if let articleImage = self.imageData.value, articleImage == UIImage(named: NewsTargetInfo.defaultImage) {
             if let imageURLString = article.urlToImage, let imageURL = URL(string: imageURLString) {
                 let dataTask = URLSession.shared.dataTask(with: imageURL) { [weak self] data, response, error in
                     if let data = data {
