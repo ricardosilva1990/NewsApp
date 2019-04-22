@@ -9,6 +9,8 @@ struct Icons {
     static let addToFavourite = "icon-add-favourite"
     static let removeFromFavourite = "icon-remove-favourite"
     static let favouriteFolder = "icon-favourite-folder"
+    static let faceId = "icon-faceID"
+    static let touchId = "icon-touchID"
 }
 
 struct CellConstants {
@@ -18,4 +20,10 @@ struct CellConstants {
 struct SegueIdentifiers {
     static let detailView = "detailView"
     static let favouritesView = "favouritesView"
+    static let mainView = "mainView"
+}
+
+struct StoryboardViewControllerIdentifiers {
+    static let loginViewController = "loginViewController"
+    static let mainViewController = "mainViewController"
 }
