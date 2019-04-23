@@ -3,6 +3,15 @@ import Foundation
 
 @testable import BBCNewsApp
 
+extension DateFormatter {
+    static var iso8601: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        return dateFormatter
+    }
+}
+
 struct NetworkData {
     struct NewsAPI {
         static let noApiKeyErrorJsonData =
@@ -28,19 +37,49 @@ struct NetworkData {
             "articles": [
                 {
                     "source": {
-                        "id": "bbc-news",
-                        "name": "BBC News"
+                        "id": "1",
+                        "name": "source1"
                     },
-                    "author": "BBC News",
-                    "title": "Herman Cain withdraws Federal Reserve bid",
-                    "description": "President Trump tweeted that he would respect Mr Cain's wishes and not pursue the nomination.",
-                    "url": "http://www.bbc.co.uk/news/world-us-canada-48017273",
-                    "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/15577/production/_106551478_gettyimages-137361799.jpg",
-                    "publishedAt": "2019-04-22T18:26:53Z",
-                    "content": "Image copyrightGetty/Mark WilsonImage caption\r\n Herman Cain made a bid for the Republican presidential nomination in 2012\r\nFormer Republican presidential hopeful Herman Cain withdrew his name for a seat on the Federal Reserve Board, US President Donald Trump … [+1985 chars]"
+                    "author": "Author 1",
+                    "title": "Title 1",
+                    "description": "Article Description 1",
+                    "url": "https://www.source1.com",
+                    "urlToImage": "https://www.source1.com/source01.jpg",
+                    "publishedAt": "2019-04-23T22:12:02Z",
+                    "content": "Content 1"
                 }
             ]
         }
+        """.data(using: .utf8)!
+        
+        static let invalidTopHeadlineJsonData =
+        """
+        {
+            "status": "ok",
+            "totalResults": 1,
+            "article": [
+                {
+                    "source": {
+                        "id": "1",
+                        "name": "source1"
+                    },
+                    "author": "Author 1",
+                    "title": "Title 1",
+                    "description": "Article Description 1",
+                    "url": "https://www.source1.com",
+                    "urlToImage": "https://www.source1.com/source01.jpg",
+                    "publishedAt": "abcadsda",
+                    "content": "Content 1"
+                }
+            ]
+        }
+        """.data(using: .utf8)!
+        
+        static let emptyTopHeadlinesJsonData =
+        """
+            "status": "ok",
+            "totalResults": 0,
+            "articles": []
         """.data(using: .utf8)!
         
         static let successTopHeadline = NAArticle(source: NASource(id: "1", name: "source1"),
@@ -49,9 +88,9 @@ struct NetworkData {
                                                   articleDescription: "Article Description 1",
                                                   url: "https://www.source1.com",
                                                   urlToImage: "https://www.source1.com/source01.jpg",
-                                                  publishedAt: Date(),
+                                                  publishedAt: DateFormatter.iso8601.date(from: "2019-04-23T22:12:02Z")!,
                                                   content: "Content 1",
-                                                  imageData: URL(string: "https://www.source1.com/source01.jpg")?.dataRepresentation)
+                                                  imageData: nil)
         
         
     }

@@ -5,31 +5,6 @@ import OHHTTPStubs
 
 @testable import BBCNewsApp
 
-private class NADecoderMock: NADecoder {
-    var error: NAError?
-    var headlinesDecodeStub: [NAArticle]?
-    
-    override func decode(data: Data) throws -> [NAArticle] {
-        if let error = error {
-            throw error
-        }
-        
-        guard let headlinesDecodeStub = headlinesDecodeStub else { return [] }
-        return headlinesDecodeStub
-    }
-}
-
-private class NAProviderMock: NAProvider {
-    var requestParameters: (target: NATarget, completion: NAProviderRequestHandler?)?
-    
-    override func request(_ target: NATarget, completion: NAProviderRequestHandler?) -> URLSessionDataTask? {
-        requestParameters = (target, completion)
-        completion?(Data(), nil)
-        
-        return URLSessionDataTask()
-    }
-}
-
 class NewsAPISpec: QuickSpec {
     override func spec() {
         var newsAPI: NewsAPI!

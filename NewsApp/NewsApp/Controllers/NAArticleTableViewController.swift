@@ -25,6 +25,8 @@ class NAArticleTableViewController: UIViewController {
         self.navigationItem.rightBarButtonItems = articleType == .all ? [favouritesButton] : [doneButton]
         if articleType == .favourite {
             self.navigationItem.title = "Favourite Headlines"
+        } else {
+            self.articleListViewModel.setup()
         }
         
         setupHeadlineConfiguration()

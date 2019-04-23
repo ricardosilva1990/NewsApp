@@ -13,10 +13,16 @@ class NAArticleListViewModel {
         return BehaviorRelay(value: (realm?.objects(NAArticle.self).compactMap(NAArticleViewModel.init))!)
     }()
     
-    private let newsAPI = NewsAPI(apiKey: NewsAPIKey.apiKey);
+    private let newsAPI: NewsAPI?
+    private let sourceKey: String?
     
-    init() {
-        self.newsAPI.getTopHeadlines(sources: NewsTargetInfo.sourceKey) { [weak self] result in
+    init(newsAPI: NewsAPI = NewsAPI(apiKey: NewsAPIKey.apiKey), sourceKey: String = NewsTargetInfo.sourceKey) {
+        self.newsAPI = newsAPI
+        self.sourceKey = sourceKey
+    }
+    
+    func setup() {
+        self.newsAPI!.getTopHeadlines(sources: self.sourceKey!) { [weak self] result in
             switch result {
             case .success(let articleList):
                 self?.articleViewModels.accept(articleList.compactMap(NAArticleViewModel.init))

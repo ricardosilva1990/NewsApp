@@ -25,6 +25,10 @@
 		2179C969226E6CE600E47706 /* NewsAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2179C968226E6CE600E47706 /* NewsAPISpec.swift */; };
 		2187BEA8226B3B410099E836 /* NAArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2187BEA7226B3B410099E836 /* NAArticleTableViewCell.swift */; };
 		2187BEAA226B3FED0099E836 /* NAArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2187BEA9226B3FED0099E836 /* NAArticleDetailViewController.swift */; };
+		2189B0B0226FB4870028629E /* NADecoderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2189B0AF226FB4870028629E /* NADecoderSpec.swift */; };
+		2189B0B2226FC08F0028629E /* NAArticleListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2189B0B1226FC08F0028629E /* NAArticleListViewModelSpec.swift */; };
+		2189B0B4226FC1100028629E /* NADecoderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2189B0B3226FC1100028629E /* NADecoderMock.swift */; };
+		2189B0B6226FC1810028629E /* NAProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2189B0B5226FC1810028629E /* NAProviderMock.swift */; };
 		21AB0C652269C5B900CB4E4A /* NAResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C642269C5B900CB4E4A /* NAResponse.swift */; };
 		21AB0C682269C8EE00CB4E4A /* NAArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C672269C8EE00CB4E4A /* NAArticle.swift */; };
 		21AB0C6C2269C97C00CB4E4A /* NATarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C6B2269C97C00CB4E4A /* NATarget.swift */; };
@@ -90,6 +94,10 @@
 		2179C968226E6CE600E47706 /* NewsAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAPISpec.swift; sourceTree = "<group>"; };
 		2187BEA7226B3B410099E836 /* NAArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleTableViewCell.swift; sourceTree = "<group>"; };
 		2187BEA9226B3FED0099E836 /* NAArticleDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleDetailViewController.swift; sourceTree = "<group>"; };
+		2189B0AF226FB4870028629E /* NADecoderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NADecoderSpec.swift; sourceTree = "<group>"; };
+		2189B0B1226FC08F0028629E /* NAArticleListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleListViewModelSpec.swift; sourceTree = "<group>"; };
+		2189B0B3226FC1100028629E /* NADecoderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NADecoderMock.swift; sourceTree = "<group>"; };
+		2189B0B5226FC1810028629E /* NAProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAProviderMock.swift; sourceTree = "<group>"; };
 		21AB0C642269C5B900CB4E4A /* NAResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAResponse.swift; sourceTree = "<group>"; };
 		21AB0C672269C8EE00CB4E4A /* NAArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticle.swift; sourceTree = "<group>"; };
 		21AB0C6B2269C97C00CB4E4A /* NATarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NATarget.swift; sourceTree = "<group>"; };
@@ -157,6 +165,8 @@
 				21542A0B226E5AEA00896AE3 /* NAProviderSpec.swift */,
 				2179C966226E699700E47706 /* NATargetSpec.swift */,
 				2179C968226E6CE600E47706 /* NewsAPISpec.swift */,
+				2189B0AF226FB4870028629E /* NADecoderSpec.swift */,
+				2189B0B1226FC08F0028629E /* NAArticleListViewModelSpec.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -187,6 +197,8 @@
 			children = (
 				21CB76A2226E54FB0087D6BB /* NetworkStub.swift */,
 				21542A08226E57DB00896AE3 /* NetworkData.swift */,
+				2189B0B3226FC1100028629E /* NADecoderMock.swift */,
+				2189B0B5226FC1810028629E /* NAProviderMock.swift */,
 			);
 			path = Configs;
 			sourceTree = "<group>";
@@ -612,9 +624,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2189B0B0226FB4870028629E /* NADecoderSpec.swift in Sources */,
 				21542A1C226E5F8900896AE3 /* NetworkData.swift in Sources */,
+				2189B0B6226FC1810028629E /* NAProviderMock.swift in Sources */,
+				2189B0B2226FC08F0028629E /* NAArticleListViewModelSpec.swift in Sources */,
 				21542A1D226E5F8C00896AE3 /* NetworkStub.swift in Sources */,
 				2179C969226E6CE600E47706 /* NewsAPISpec.swift in Sources */,
+				2189B0B4226FC1100028629E /* NADecoderMock.swift in Sources */,
 				2179C967226E699700E47706 /* NATargetSpec.swift in Sources */,
 				21542A1B226E5F8700896AE3 /* NAProviderSpec.swift in Sources */,
 			);

@@ -24,6 +24,12 @@ public class NASource: Object, Codable {
     public required init(realm: RLMRealm, schema: RLMObjectSchema) {
         super.init(realm: realm, schema: schema)
     }
+    
+    public override func isEqual(_ object: Any?) -> Bool {
+        let other = object as? NASource
+        
+        return id == other?.id && name == other?.name
+    }
 }
 
 public class NAArticle: Object, Codable {
@@ -87,5 +93,18 @@ public class NAArticle: Object, Codable {
     
     public required init(realm: RLMRealm, schema: RLMObjectSchema) {
         super.init(realm: realm, schema: schema)
+    }
+    
+    public override func isEqual(_ object: Any?) -> Bool {
+        let other = object as? NAArticle
+        
+        return source == other?.source &&
+            author == other?.author &&
+            title == other?.title &&
+            articleDescription == other?.articleDescription &&
+            url == other?.url &&
+            urlToImage == other?.urlToImage &&
+            publishedAt == other?.publishedAt &&
+            content == other?.content
     }
 }
