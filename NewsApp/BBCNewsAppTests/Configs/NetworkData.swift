@@ -1,5 +1,6 @@
 
 import Foundation
+import UIKit
 
 @testable import BBCNewsApp
 
@@ -92,6 +93,12 @@ struct NetworkData {
                                                   content: "Content 1",
                                                   imageData: nil)
         
+        static let favouriteArticle = NAArticle(title: "favourite 1",
+                                                articleDescription: "desc 1",
+                                                content: "cont 1",
+                                                imageData: nil)
         
+        
+        static let defaultImage = UIImage(named: NewsTargetInfo.defaultImage)
     }
 }

@@ -35,7 +35,7 @@ class NADecoderSpec: QuickSpec {
             
             context("When Empty Data") {
                 it("Throws Unable to PArse Error") {
-                    expect { try decoder.decode(data: NetworkData.NewsAPITopHeadlines.emptyTopHeadlinesJsonData) as [NAArticle] }
+                    expect { try decoder.decode(data: NetworkData.NewsAPITopHeadlines.emptyTopHeadlinesJsonData) as [NAArticle] }
                     .to(throwError(NAError.unableToParse))
                 }
             }

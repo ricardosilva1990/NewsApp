@@ -35,11 +35,10 @@ class NATargetSpec: QuickSpec {
         }
         
         describe("Endpoint") {
-            // TODO: change this to "contains"
-            
             it("Sets Sources Parameter When Available") {
                 let topHeadlines = NATarget.topHeadlines(sources: "source")
-                expect(topHeadlines.endpoint) == URL(string: "https://newsapi.org/v2/top-headlines?sources=source&sortBy=publishedAt")
+                expect(topHeadlines.endpoint?.absoluteString)
+                    .to(contain(["https://newsapi.org/v2/top-headlines?", "sources=source", "sortBy=publishedAt"]))
             }
         }
     }
