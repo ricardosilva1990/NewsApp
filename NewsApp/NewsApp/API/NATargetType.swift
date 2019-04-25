@@ -1,6 +1,9 @@
 
 import Foundation
 
+/**
+ * The configuration expected for all the urls
+ **/
 protocol NATargetType {
     var baseURL: String { get }
     var path: String { get }

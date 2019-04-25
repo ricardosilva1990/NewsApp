@@ -38,6 +38,8 @@
 		21AB0C722269CF2800CB4E4A /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C712269CF2800CB4E4A /* Result.swift */; };
 		21AB0C742269CF6C00CB4E4A /* NewsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C732269CF6C00CB4E4A /* NewsAPI.swift */; };
 		21AB0C762269D1A000CB4E4A /* NAProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB0C752269D1A000CB4E4A /* NAProvider.swift */; };
+		21AB9D982271C3900018A2F8 /* NAArticleFavouriteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB9D972271C3900018A2F8 /* NAArticleFavouriteDelegate.swift */; };
+		21AB9D992271C3900018A2F8 /* NAArticleFavouriteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB9D972271C3900018A2F8 /* NAArticleFavouriteDelegate.swift */; };
 		21D43EC5226920B400CB4CFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D43EC4226920B400CB4CFD /* AppDelegate.swift */; };
 		21D43ECA226920B400CB4CFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21D43EC8226920B400CB4CFD /* Main.storyboard */; };
 		21D43ECC226920B500CB4CFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21D43ECB226920B500CB4CFD /* Assets.xcassets */; };
@@ -108,6 +110,7 @@
 		21AB0C712269CF2800CB4E4A /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		21AB0C732269CF6C00CB4E4A /* NewsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAPI.swift; sourceTree = "<group>"; };
 		21AB0C752269D1A000CB4E4A /* NAProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAProvider.swift; sourceTree = "<group>"; };
+		21AB9D972271C3900018A2F8 /* NAArticleFavouriteDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NAArticleFavouriteDelegate.swift; sourceTree = "<group>"; };
 		21CB76A2226E54FB0087D6BB /* NetworkStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStub.swift; sourceTree = "<group>"; };
 		21D43EC1226920B400CB4CFD /* BBCNewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BBCNewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D43EC4226920B400CB4CFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +198,14 @@
 			path = Configs;
 			sourceTree = "<group>";
 		};
+		21AB9D962271C3600018A2F8 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				21AB9D972271C3900018A2F8 /* NAArticleFavouriteDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		21CB76A1226E54E00087D6BB /* Configs */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +241,7 @@
 		21D43EC3226920B400CB4CFD /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
+				21AB9D962271C3600018A2F8 /* Protocols */,
 				2160B8BB226A18AF006D0C15 /* Configs */,
 				21D43EE92269229200CB4CFD /* API */,
 				21D43EE42269211000CB4CFD /* Models */,
@@ -652,6 +664,7 @@
 				21AB0C682269C8EE00CB4E4A /* NAArticle.swift in Sources */,
 				210B40AB226E0DA300835CBC /* NABiometricIDAuth.swift in Sources */,
 				2160B8B82269F001006D0C15 /* NAArticleListViewModel.swift in Sources */,
+				21AB9D982271C3900018A2F8 /* NAArticleFavouriteDelegate.swift in Sources */,
 				2160B8BA226A1837006D0C15 /* NAArticleViewModel.swift in Sources */,
 				21AB0C6C2269C97C00CB4E4A /* NATarget.swift in Sources */,
 				21AB0C762269D1A000CB4E4A /* NAProvider.swift in Sources */,
@@ -678,6 +691,7 @@
 				21DC53FE226E02D5002C24A1 /* NAArticle.swift in Sources */,
 				210B40AC226E0DA300835CBC /* NABiometricIDAuth.swift in Sources */,
 				21DC53FF226E02D5002C24A1 /* NAArticleListViewModel.swift in Sources */,
+				21AB9D992271C3900018A2F8 /* NAArticleFavouriteDelegate.swift in Sources */,
 				21DC5400226E02D5002C24A1 /* NAArticleViewModel.swift in Sources */,
 				21DC5401226E02D5002C24A1 /* NATarget.swift in Sources */,
 				21DC541B226E0369002C24A1 /* CBSNewsTargetInfo.swift in Sources */,

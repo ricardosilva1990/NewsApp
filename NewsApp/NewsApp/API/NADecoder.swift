@@ -1,7 +1,13 @@
 
 import Foundation
 
+/**
+ * Decodes the Article JSON Data to the models used in the apps
+ **/
 class NADecoder {
+    /**
+     * Manages the date format expected by the API
+     **/
     lazy private var dateFormat: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

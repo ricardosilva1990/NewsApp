@@ -13,6 +13,7 @@ class NAArticleViewModel {
     var source: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var isFavourite: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
+    // the image to show when the associated when isn't (yet) available
     let defaultImage: UIImage!
     
     init(article: NAArticle,

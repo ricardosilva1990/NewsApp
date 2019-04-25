@@ -3,6 +3,9 @@ import Foundation
 
 typealias NAProviderRequestHandler = ((Data?, NAError?) -> ())
 
+/**
+ * Constructs all the info required to make and handle the request
+ **/
 public class NAProvider {
     private let apiKey: String
     private let urlSession: URLSession

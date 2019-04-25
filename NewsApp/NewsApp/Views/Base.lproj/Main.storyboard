@@ -42,24 +42,18 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="dUw-Bp-TGE">
-                                                    <rect key="frame" x="76.5" y="31.5" width="37" height="37"/>
-                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="sMb-4Q-i28" firstAttribute="top" secondItem="XWY-UF-5RK" secondAttribute="topMargin" id="3ka-y7-phr"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="sMb-4Q-i28" secondAttribute="trailing" id="4Io-ky-1N8"/>
-                                                <constraint firstItem="dUw-Bp-TGE" firstAttribute="centerY" secondItem="Ihc-Ee-vFP" secondAttribute="centerY" id="7Bo-cA-1iH"/>
                                                 <constraint firstItem="Ihc-Ee-vFP" firstAttribute="leading" secondItem="XWY-UF-5RK" secondAttribute="leadingMargin" id="CyF-c2-jrX"/>
                                                 <constraint firstItem="Ihc-Ee-vFP" firstAttribute="top" secondItem="XWY-UF-5RK" secondAttribute="topMargin" id="Fim-Ov-4eN"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Ihc-Ee-vFP" secondAttribute="bottom" id="Sa8-dk-de6"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="sMb-4Q-i28" secondAttribute="bottom" id="WXU-Mm-M1p"/>
                                                 <constraint firstItem="sMb-4Q-i28" firstAttribute="leading" secondItem="Ihc-Ee-vFP" secondAttribute="trailing" constant="8" id="mHF-bC-c2Q"/>
-                                                <constraint firstItem="dUw-Bp-TGE" firstAttribute="centerX" secondItem="Ihc-Ee-vFP" secondAttribute="centerX" id="pIR-gE-bkC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="activityIndicatorView" destination="dUw-Bp-TGE" id="F8O-QK-CAq"/>
                                             <outlet property="articleImage" destination="Ihc-Ee-vFP" id="51C-I9-AwV"/>
                                             <outlet property="articleTitle" destination="sMb-4Q-i28" id="K3E-Bw-Pqw"/>
                                         </connections>
@@ -230,6 +224,6 @@
         <image name="icon-fingerprint" width="170.5" height="170.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dtz-vv-IC0"/>
+        <segue reference="Xqt-jF-zNw"/>
     </inferredMetricsTieBreakers>
 </document>

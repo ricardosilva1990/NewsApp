@@ -9,6 +9,7 @@ class NAArticleDetailViewController: UIViewController {
     @IBOutlet weak var articleContent: UILabel!
     
     var articleViewModel: NAArticleViewModel!
+    weak var delegate: NAArticleFavouriteDelegate?
     
     let disposeBag = DisposeBag()
     
@@ -18,6 +19,9 @@ class NAArticleDetailViewController: UIViewController {
         setupDetailConfiguration()
     }
     
+    /**
+     * Setups the Detail View
+     **/
     func setupDetailConfiguration() {
         self.articleViewModel.title.asObservable().bind(to: self.navigationItem.rx.title).disposed(by: disposeBag)
         self.articleViewModel.imageData.asObservable().bind(to: self.articleImage.rx.image).disposed(by: disposeBag)
@@ -26,9 +30,9 @@ class NAArticleDetailViewController: UIViewController {
         
         self.articleViewModel.isFavourite.asObservable().subscribe(onNext: { favourite in
             if (favourite) {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Icons.removeFromFavourite), style: .plain, target: self, action: #selector(self.removeFromFavourite))
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Icons.removeFromFavourite), style: .plain, target: self, action: #selector(self.removeFromFavourites))
             } else {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Icons.addToFavourite), style: .plain, target: self, action: #selector(self.addToFavourite))
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Icons.addToFavourite), style: .plain, target: self, action: #selector(self.addToFavourites))
             }
         }).disposed(by: disposeBag)
     }
@@ -37,32 +41,13 @@ class NAArticleDetailViewController: UIViewController {
 // MARK: - User Interface Interaction
 
 extension NAArticleDetailViewController {
-    @objc func addToFavourite() {
+    @objc func addToFavourites() {
         self.articleViewModel.addToFavourites()
-        
-        if let parentViewController = self.parent?.children.first as? NAArticleTableViewController {
-            let currentFavourites = parentViewController.articleListViewModel.favouriteArticleViewModels.value + [self.articleViewModel]
-            parentViewController.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites as! [NAArticleViewModel])
-            
-            let article = parentViewController.articleListViewModel.articleViewModels.value.filter { $0.title.value == self.articleViewModel.title.value }.first
-            if let article = article {
-                article.isFavourite.accept(true)
-            }
-            
-        }
+        delegate?.addToFavourites(articleViewModel: self.articleViewModel)
     }
     
-    @objc func removeFromFavourite() {
+    @objc func removeFromFavourites() {
         self.articleViewModel.removeFromFavourites()
-        
-        if let parentViewController = self.parent?.children.first as? NAArticleTableViewController {
-            let currentFavourites = parentViewController.articleListViewModel.favouriteArticleViewModels.value.filter { $0.title.value != self.articleViewModel.title.value }
-            parentViewController.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
-            
-            let article = parentViewController.articleListViewModel.articleViewModels.value.filter { $0.title.value == self.articleViewModel.title.value }.first
-            if let article = article {
-                article.isFavourite.accept(false)
-            }
-        }
+        delegate?.removeFromFavourites(articleViewModel: self.articleViewModel)
     }
 }
