@@ -82,6 +82,11 @@
                         <viewLayoutGuide key="safeArea" id="X6c-bk-aiJ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Loading..." id="IIr-Yc-duR">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="refresh" id="Z39-a9-crb">
+                            <connections>
+                                <action selector="clickRefreshButton:" destination="mKm-qg-Ys3" id="6x1-8P-XyX"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem style="done" systemItem="done" id="5eH-Te-21P">
                                 <connections>
@@ -99,6 +104,7 @@
                         <outlet property="activityIndicatorView" destination="Aoc-7c-opz" id="o8s-FE-GVj"/>
                         <outlet property="doneButton" destination="5eH-Te-21P" id="BjF-I1-T1N"/>
                         <outlet property="favouritesButton" destination="Df1-KC-S7Q" id="qA1-n9-wNF"/>
+                        <outlet property="refreshButton" destination="Z39-a9-crb" id="LkQ-xg-3JV"/>
                         <outlet property="tableView" destination="xdT-qa-LRX" id="gFc-4c-c5k"/>
                         <segue destination="BgS-yJ-rNC" kind="show" identifier="detailView" id="LuF-Il-NRC"/>
                         <segue destination="d3a-yg-8uY" kind="presentation" identifier="favouritesView" id="Xqt-jF-zNw"/>
@@ -183,13 +189,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Insert Fingerprint" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kYj-rz-J7u">
-                                <rect key="frame" x="20" y="296.5" width="374" height="36"/>
+                                <rect key="frame" x="20" y="371" width="374" height="36"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VEV-M4-DaM">
-                                <rect key="frame" x="20" y="362.5" width="374" height="171"/>
+                                <rect key="frame" x="20" y="437" width="374" height="22"/>
                                 <state key="normal" image="icon-fingerprint"/>
                                 <connections>
                                     <action selector="clickLoginButton:" destination="uY0-xX-dqP" eventType="touchUpInside" id="cR0-Qt-sai"/>

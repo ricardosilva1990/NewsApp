@@ -18,7 +18,7 @@ public class NewsAPI {
     }
     
     /**
-     GETs the top headlines for the given parameters
+     GETs the top headlines for the given source
      **/
     @discardableResult
     public func getTopHeadlines(sources: String? = nil, completion: @escaping NARequestHandler<NAArticle>) -> URLSessionDataTask? {

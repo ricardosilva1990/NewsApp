@@ -53,10 +53,10 @@ extension NAArticleDetailViewController {
     }
     
     @objc func removeFromFavourite() {
-        self.articleViewModel.removeFomFavourites()
+        self.articleViewModel.removeFromFavourites()
         
         if let parentViewController = self.parent?.children.first as? NAArticleTableViewController {
-            let currentFavourites = parentViewController.articleListViewModel.favouriteArticleViewModels.value.filter { $0 != self.articleViewModel }
+            let currentFavourites = parentViewController.articleListViewModel.favouriteArticleViewModels.value.filter { $0.title.value != self.articleViewModel.title.value }
             parentViewController.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
             
             let article = parentViewController.articleListViewModel.articleViewModels.value.filter { $0.title.value == self.articleViewModel.title.value }.first

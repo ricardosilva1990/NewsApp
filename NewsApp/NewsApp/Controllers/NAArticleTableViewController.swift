@@ -13,6 +13,7 @@ class NAArticleTableViewController: UIViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var favouritesButton: UIBarButtonItem!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
     
     lazy var articleListViewModel: NAArticleListViewModel! = NAArticleListViewModel()
     var articleType = NAArticleType.all
@@ -24,7 +25,15 @@ class NAArticleTableViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItems = articleType == .all ? [favouritesButton] : [doneButton]
         if articleType == .favourite {
+            self.navigationItem.leftBarButtonItems = []
+        }
+        self.refreshButton.isEnabled = false
+        
+        if articleType == .favourite {
             self.navigationItem.title = "Favourite Headlines"
+            self.articleListViewModel.setupFavourites()
+        } else {
+            self.setupStart()
         }
         
         setupHeadlineConfiguration()
@@ -32,18 +41,29 @@ class NAArticleTableViewController: UIViewController {
         setupCellTapHandling()
     }
     
+    func setupStart() {
+        self.activityIndicatorView.startAnimating()
+        self.tableView.isUserInteractionEnabled = false
+        self.articleListViewModel.setup { [weak self] in
+            DispatchQueue.main.async {
+                self?.activityIndicatorView.stopAnimating()
+                self?.tableView.isUserInteractionEnabled = true
+                self?.navigationItem.title = "No Results"
+                self?.refreshButton.isEnabled = true
+            }
+            
+        }
+    }
+    
     func setupHeadlineConfiguration() {
-        self.articleListViewModel.articleViewModels.asObservable().subscribe(onNext: { articles in
-            if self.articleType == .all {
-                if articles.count != 0 {
-                    DispatchQueue.main.async {
-                        self.navigationItem.title = articles.first?.source.value
-                        self.activityIndicatorView.stopAnimating()
-                        self.tableView.isUserInteractionEnabled = true
+        self.articleListViewModel.articleViewModels.asObservable().subscribe(onNext: { [weak self] articles in
+            if self?.articleType == .all {
+                DispatchQueue.main.async {
+                    if (articles.count != 0) {
+                        self?.navigationItem.title = articles.first?.source.value
+                        self?.activityIndicatorView.stopAnimating()
+                        self?.tableView.isUserInteractionEnabled = true
                     }
-                } else {
-                    self.activityIndicatorView.startAnimating()
-                    self.tableView.isUserInteractionEnabled = false
                 }
             }
         }).disposed(by: disposeBag)
@@ -84,6 +104,11 @@ extension NAArticleTableViewController {
     
     @IBAction func clickDoneButton(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
+    }
+    
+    @IBAction func clickRefreshButton(_ sender: UIBarButtonItem) {
+        self.refreshButton.isEnabled = false
+        self.setupStart()
     }
 }
 

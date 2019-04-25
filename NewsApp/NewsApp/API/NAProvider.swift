@@ -12,6 +12,7 @@ public class NAProvider {
         self.urlSession = urlSession
     }
     
+    @discardableResult
     func request(_ target: NATarget, completion: NAProviderRequestHandler?) -> URLSessionDataTask? {
         guard let urlRequest = makeURLRequest(with: target) else {
             completion?(nil, .invalidEndpointURL)

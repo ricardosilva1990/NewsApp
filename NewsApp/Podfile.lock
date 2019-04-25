@@ -1,4 +1,19 @@
 PODS:
+  - Nimble (8.0.1)
+  - OHHTTPStubs/Core (8.0.0)
+  - OHHTTPStubs/Default (8.0.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (8.0.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (8.0.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (8.0.0)
+  - OHHTTPStubs/Swift (8.0.0):
+    - OHHTTPStubs/Default
+  - Quick (2.1.0)
   - Realm (3.14.0):
     - Realm/Headers (= 3.14.0)
   - Realm/Headers (3.14.0)
@@ -9,23 +24,32 @@ PODS:
   - RxSwift (4.5.0)
 
 DEPENDENCIES:
+  - Nimble (~> 8.0)
+  - OHHTTPStubs/Swift (~> 8.0)
+  - Quick (~> 2.1)
   - RealmSwift (~> 3.14)
   - RxCocoa (~> 4.5)
   - RxSwift (~> 4.5)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Nimble
+    - OHHTTPStubs
+    - Quick
     - Realm
     - RealmSwift
     - RxCocoa
     - RxSwift
 
 SPEC CHECKSUMS:
+  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
+  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
+  Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
   Realm: 221b25919bb5a010a3c597d707f8df3492dcd93a
   RealmSwift: 28f22dfa6a27b9a778cfb09471558b6afcf1022c
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
 
-PODFILE CHECKSUM: 502acbe34910b73bd41426f0cb3996dfdcbcb500
+PODFILE CHECKSUM: b6be797f7110b8ab5f5146dd5c77516603f84998
 
 COCOAPODS: 1.6.0.beta.2

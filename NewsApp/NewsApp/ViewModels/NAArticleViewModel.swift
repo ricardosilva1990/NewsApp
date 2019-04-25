@@ -5,16 +5,20 @@ import RealmSwift
 import RxSwift
 import RxCocoa
 
-class NAArticleViewModel: NSObject {
+class NAArticleViewModel {
     var title: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    var imageData: BehaviorRelay<UIImage?> = BehaviorRelay(value: UIImage(named: NewsTargetInfo.defaultImage))
+    var imageData: BehaviorRelay<UIImage?> = BehaviorRelay(value: nil)
     var descriptionText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var content: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var source: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     var isFavourite: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
-    init(article: NAArticle) {
-        super.init()
+    let defaultImage: UIImage!
+    
+    init(article: NAArticle,
+         realm: Realm? = try? Realm(),
+         defaultImage: UIImage? = UIImage(named: NewsTargetInfo.defaultImage)) {
+        self.defaultImage = defaultImage
         
         self.title = BehaviorRelay(value: article.title)
         self.descriptionText = BehaviorRelay(value: article.articleDescription)
@@ -23,9 +27,11 @@ class NAArticleViewModel: NSObject {
         
         if let imageData = article.imageData {
             self.imageData.accept(UIImage(data: imageData))
+        } else {
+            self.imageData.accept(defaultImage)
         }
         
-        if let articleImage = self.imageData.value, articleImage == UIImage(named: NewsTargetInfo.defaultImage) {
+        if let articleImage = self.imageData.value, articleImage == defaultImage {
             if let imageURLString = article.urlToImage, let imageURL = URL(string: imageURLString) {
                 let dataTask = URLSession.shared.dataTask(with: imageURL) { [weak self] data, response, error in
                     if let data = data {
@@ -36,23 +42,26 @@ class NAArticleViewModel: NSObject {
             }
         }
         
-        let realm = try? Realm()
         self.isFavourite.accept(realm?.objects(NAArticle.self).filter("title = %@", article.title!).count != 0)
     }
 }
 
 //MARK: - Realm Add/Remove
 extension NAArticleViewModel {
-    func addToFavourites() {
-        let realm = try? Realm()
+    func addToFavourites(realm: Realm? = try? Realm()) {
+        guard !self.isFavourite.value else { return }
         try? realm?.write {
-            realm?.add(NAArticle(title: self.title.value, articleDescription: self.descriptionText.value, content: self.content.value, imageData: self.imageData.value?.pngData()))
+            let articleToAdd = NAArticle(title: self.title.value,
+                                         articleDescription: self.descriptionText.value,
+                                         content: self.content.value,
+                                         imageData: self.imageData.value?.pngData())
+            realm?.add(articleToAdd)
             self.isFavourite.accept(true)
         }
     }
-
-    func removeFomFavourites() {
-        let realm = try? Realm()
+    
+    func removeFromFavourites(realm: Realm? = try? Realm()) {
+        guard self.isFavourite.value else { return }
         let article = realm?.objects(NAArticle.self).filter("title = %@", self.title.value!).first
         try? realm?.write {
             realm?.delete(article!)
