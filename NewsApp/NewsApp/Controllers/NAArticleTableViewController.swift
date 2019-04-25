@@ -112,6 +112,31 @@ extension NAArticleTableViewController {
     }
 }
 
+// MARK: - NAArticle Delegate
+
+extension NAArticleTableViewController: NAArticleDelegate {
+    func addToFavourites(articleViewModel: NAArticleViewModel) {
+        let currentFavourites = self.articleListViewModel.favouriteArticleViewModels.value + [articleViewModel]
+        self.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
+        
+        let article = self.articleListViewModel.articleViewModels.value.filter { $0.title.value == articleViewModel.title.value }.first
+        if let article = article {
+            article.isFavourite.accept(true)
+        }
+    }
+    
+    func removeFromFavourites(articleViewModel: NAArticleViewModel) {
+        let currentFavourites = self.articleListViewModel.favouriteArticleViewModels.value.filter { $0.title.value != articleViewModel.title.value }
+        self.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
+        
+        let article = self.articleListViewModel.articleViewModels.value.filter { $0.title.value == articleViewModel.title.value }.first
+        if let article = article {
+            article.isFavourite.accept(false)
+        }
+    }
+}
+
+
 // MARK: - Navigation
 
 extension NAArticleTableViewController {
@@ -120,6 +145,7 @@ extension NAArticleTableViewController {
             let articleDetailVC = segue.destination as? NAArticleDetailViewController
             let articleViewModel = sender as! NAArticleViewModel
             articleDetailVC?.articleViewModel = articleViewModel
+            articleDetailVC?.delegate = self
         } else if segue.identifier == SegueIdentifiers.favouritesView {
             if let favouriteListTVC = (segue.destination as? UINavigationController)?.children.first as? NAArticleTableViewController {
                 favouriteListTVC.articleType = .favourite
