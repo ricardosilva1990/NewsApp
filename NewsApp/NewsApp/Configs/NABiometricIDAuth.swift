@@ -2,6 +2,7 @@
 import Foundation
 import LocalAuthentication
 
+
 enum NABiometricType {
     case none
     case touchID
@@ -12,13 +13,14 @@ typealias NAUserAuthenticationCompletionHandler = ((String?) -> ())
 
 struct NABiometricIDAuth {
     let context = LAContext()
-    var loginReason = "Logging in with Touch ID"
+    var loginReason = "Logging in with Biometrics"
     
     func canEvaluatePolicy() -> Bool {
         var error: NSError?
-        let hasTouchID = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        let hasBiometrics = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
         
-        return hasTouchID || (error?.code != LAError.biometryNotAvailable.rawValue && error?.code != LAError.biometryNotEnrolled.rawValue)
+        // returns true if the device has one kind of biometrics available and configured
+        return hasBiometrics || (error?.code != LAError.biometryNotAvailable.rawValue && error?.code != LAError.biometryNotEnrolled.rawValue)
         
     }
     

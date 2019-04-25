@@ -3,6 +3,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// Type of Article to show (normal or favourited)
 enum NAArticleType {
     case all
     case favourite
@@ -10,12 +11,22 @@ enum NAArticleType {
 
 class NAArticleTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    
+    // shown when an internet request is being made
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
+    // allows the user to go to the favourite headlines list
     @IBOutlet weak var favouritesButton: UIBarButtonItem!
+    
+    // allows the user to return to the headlines lisrt
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    
+    // allows the user to make another request when the previous one failed
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
     lazy var articleListViewModel: NAArticleListViewModel! = NAArticleListViewModel()
+    
+    // since the view controller is shared through two types of headlines (all and favourited), this variable distinguishes both
     var articleType = NAArticleType.all
     
     let disposeBag = DisposeBag()
@@ -23,16 +34,15 @@ class NAArticleTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.rightBarButtonItems = articleType == .all ? [favouritesButton] : [doneButton]
-        if articleType == .favourite {
-            self.navigationItem.leftBarButtonItems = []
-        }
         self.refreshButton.isEnabled = false
-        
-        if articleType == .favourite {
+        switch articleType {
+        case .favourite:
+            self.navigationItem.rightBarButtonItems = [doneButton]
+            self.navigationItem.leftBarButtonItems = []
             self.navigationItem.title = "Favourite Headlines"
             self.articleListViewModel.setupFavourites()
-        } else {
+        default:
+            self.navigationItem.rightBarButtonItems = [favouritesButton]
             self.setupStart()
         }
         
@@ -55,6 +65,9 @@ class NAArticleTableViewController: UIViewController {
         }
     }
     
+    /**
+     * Handles the present of values to display on the list (for the main Headline List)
+     **/
     func setupHeadlineConfiguration() {
         self.articleListViewModel.articleViewModels.asObservable().subscribe(onNext: { [weak self] articles in
             if self?.articleType == .all {
@@ -69,15 +82,19 @@ class NAArticleTableViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
+    /**
+     * Setups the TableViewCell to display the required info
+     **/
     func setupCellConfiguration() {
-        if articleType == .all {
-            self.articleListViewModel.articleViewModels.asObservable()
+        switch self.articleType {
+        case .favourite:
+            self.articleListViewModel.favouriteArticleViewModels.asObservable()
                 .bind(to: self.tableView.rx.items(cellIdentifier: CellConstants.article, cellType: NAArticleTableViewCell.self)) { index, article, cell in
                     cell.configureWithArticle(article: article)
                 }
                 .disposed(by: disposeBag)
-        } else {
-            self.articleListViewModel.favouriteArticleViewModels.asObservable()
+        default:
+            self.articleListViewModel.articleViewModels.asObservable()
                 .bind(to: self.tableView.rx.items(cellIdentifier: CellConstants.article, cellType: NAArticleTableViewCell.self)) { index, article, cell in
                     cell.configureWithArticle(article: article)
                 }
@@ -85,6 +102,9 @@ class NAArticleTableViewController: UIViewController {
         }
     }
     
+    /**
+     * Configures the tap handling of the TableViewCell
+     **/
     func setupCellTapHandling() {
         self.tableView.rx.modelSelected(NAArticleViewModel.self).subscribe(onNext: { article in
             self.performSegue(withIdentifier: SegueIdentifiers.detailView, sender: article)
@@ -98,14 +118,23 @@ class NAArticleTableViewController: UIViewController {
 // MARK: - Bar Button Item Methods
 
 extension NAArticleTableViewController {
+    /**
+     * Goes to the Favourites Headlines List
+     **/
     @IBAction func clickFavouritesButton(_ sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: SegueIdentifiers.favouritesView, sender: nil)
     }
     
+    /**
+     * Returns to the Main Headlines List
+     **/
     @IBAction func clickDoneButton(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
     
+    /**
+     * Makes a new NewsAPI request
+     **/
     @IBAction func clickRefreshButton(_ sender: UIBarButtonItem) {
         self.refreshButton.isEnabled = false
         self.setupStart()
@@ -114,7 +143,10 @@ extension NAArticleTableViewController {
 
 // MARK: - NAArticle Delegate
 
-extension NAArticleTableViewController: NAArticleDelegate {
+extension NAArticleTableViewController: NAArticleFavouriteDelegate {
+    /**
+     * Handles the headline favourite operation to both article arrays
+     **/
     func addToFavourites(articleViewModel: NAArticleViewModel) {
         let currentFavourites = self.articleListViewModel.favouriteArticleViewModels.value + [articleViewModel]
         self.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
@@ -125,6 +157,9 @@ extension NAArticleTableViewController: NAArticleDelegate {
         }
     }
     
+    /**
+     * Handles the headline unfavourite operation to both article arrays
+     **/
     func removeFromFavourites(articleViewModel: NAArticleViewModel) {
         let currentFavourites = self.articleListViewModel.favouriteArticleViewModels.value.filter { $0.title.value != articleViewModel.title.value }
         self.articleListViewModel.favouriteArticleViewModels.accept(currentFavourites)
@@ -141,12 +176,12 @@ extension NAArticleTableViewController: NAArticleDelegate {
 
 extension NAArticleTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SegueIdentifiers.detailView {
+        if segue.identifier == SegueIdentifiers.detailView {    // go to details view
             let articleDetailVC = segue.destination as? NAArticleDetailViewController
             let articleViewModel = sender as! NAArticleViewModel
             articleDetailVC?.articleViewModel = articleViewModel
             articleDetailVC?.delegate = self
-        } else if segue.identifier == SegueIdentifiers.favouritesView {
+        } else if segue.identifier == SegueIdentifiers.favouritesView { // go to favourites list view
             if let favouriteListTVC = (segue.destination as? UINavigationController)?.children.first as? NAArticleTableViewController {
                 favouriteListTVC.articleType = .favourite
                 favouriteListTVC.articleListViewModel = self.articleListViewModel

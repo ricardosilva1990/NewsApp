@@ -10,6 +10,7 @@ class NALoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // display different labels and buttons based on the type of biometrics configured on the device
         switch biometricIDAuth.biometricType() {
         case .faceID:
             self.idLabel.text = "Log in with Face ID"

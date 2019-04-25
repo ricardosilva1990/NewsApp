@@ -1,6 +1,9 @@
 
 import Foundation
 
+/**
+ * The struct that handles the API request result
+ **/
 struct NAResponse: Codable {
     let status: String
     let code: String?

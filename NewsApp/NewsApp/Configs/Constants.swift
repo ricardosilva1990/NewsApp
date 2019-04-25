@@ -1,6 +1,9 @@
 
 import Foundation
 
+/**
+ * Shared app constants
+ **/
 struct NewsAPIKey {
     static let apiKey = "6ec3b5243a5e486a97cd9d7752616fed"
 }

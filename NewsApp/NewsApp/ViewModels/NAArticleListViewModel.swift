@@ -5,6 +5,8 @@ import RxCocoa
 import Realm
 import RealmSwift
 
+typealias APIFailureHandler = (() -> ())
+
 class NAArticleListViewModel {
     var articleViewModels: BehaviorRelay<[NAArticleViewModel]> = BehaviorRelay(value: [NAArticleViewModel]())
     
@@ -18,7 +20,7 @@ class NAArticleListViewModel {
         self.sourceKey = sourceKey
     }
     
-    func setup(errorHandler: @escaping () -> ()) {
+    func setup(errorHandler: @escaping APIFailureHandler) {
         self.newsAPI!.getTopHeadlines(sources: self.sourceKey!) { [weak self] result in
             switch result {
             case .success(let articleList):

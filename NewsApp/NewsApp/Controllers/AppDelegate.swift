@@ -1,14 +1,5 @@
-//
-//  AppDelegate.swift
-//  NewsApp
-//
-//  Created by Ricardo Silva on 18/04/2019.
-//  Copyright © 2019 Ricardo Silva. All rights reserved.
-//
 
 import UIKit
-import Realm
-import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
+        /**
+         * If biometrics is available and configured, the app will start on the login screen. If not, it does directly to the headlines list
+         **/
         let viewController = storyboard.instantiateViewController(withIdentifier: biometricIDAuth.canEvaluatePolicy() ? StoryboardViewControllerIdentifiers.loginViewController : StoryboardViewControllerIdentifiers.mainViewController)
         self.window?.rootViewController = viewController
         self.window?.makeKeyAndVisible()
